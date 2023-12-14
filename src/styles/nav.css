@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.Nav {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    flex-shrink: 0;
+    font-family: "Montserrat", sans-serif;
+    padding-top:3rem;
+    z-index:2;
+}
+.Nav_title {
+    color: #F2C698;
+    text-shadow: 0px 0px 123.48px #f2c698, 0px 0px 246.96px #f2c698,
+        0px 0px 423.36px #f2c698, 0px 0px 740.88px #f2c698;
+    font-family: Montserrat;
+    font-size: 2rem;
+    font-weight: 500;
+    padding-left:2rem;
+}
+
+
+.Nav_title::first-letter{
+    color: #ed6a6c !important;
+}
+.Nav_title span:nth-child(5) {
+    color: #ed6a6c !important;; 
+  }
+.Nav_links {
+    color:#ed6a6c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    gap: 5rem;
+    font-family: inherits;
+}
+
+.Nav_links a{
+    color:#ed6a6c;
+}
+
+.Nav_button{
+    border-radius: 5px;
+    background: #F2C698;
+    padding: 0.5rem 2rem;
+    color: #111111;
+    border: none;
+    font-size: 1rem;
+}
+
+a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease 0s;
+    font-family: "Montserrat", sans-serif;
+}
+
+

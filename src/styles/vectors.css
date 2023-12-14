@@ -1,0 +1,9 @@
+.circuits{
+    display: flex;
+
+}
+
+.left_circuits{
+    display:flex;
+    padding-left:2rem;
+}
