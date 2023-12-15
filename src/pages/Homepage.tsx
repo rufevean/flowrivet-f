@@ -6,6 +6,7 @@ import Nav from "../components/Nav.tsx";
 import NoiseComponent from "../components/NoiseComponent.tsx";
 // import Vectors from "../components/Vectors.tsx";
 const Homepage: React.FC = () => {
+    const text = "safeguarding privacy in every project's journey.";
     return (
         <div className="Homepage">
             <Nav />
@@ -28,7 +29,11 @@ const Homepage: React.FC = () => {
                 </div>
             </div>
             <NoiseComponent />
-            <div className="Homepage_quote1">safeguarding privacy in every project's journey.</div>
+            <div className="Homepage_quote1">
+                {text.split("").map((char, index) => (
+                    <span key={index}>{char}</span>
+                ))}
+            </div>
             {/* <Vectors /> */}
         </div>
     );

@@ -78,11 +78,24 @@
 }
 
 .Homepage_quote1 {
-    color: #ed6a6c;
+    color: #f2c698;
     text-align: center;
     font-family: Montserrat;
     font-size: 5rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    padding : 0 10vw;
+}
+
+
+.Homepage_quote1::first-letter,
+.Homepage_quote1 span:nth-child(6),
+.Homepage_quote1 span:nth-child(7),
+.Homepage_quote1 span:nth-child(22),
+.Homepage_quote1 span:nth-child(28),
+.Homepage_quote1 span:nth-child(31),
+.Homepage_quote1 span:nth-child(32),
+.Homepage_quote1 span:nth-child(47) {
+    color: #ed6a6c !important;
 }
