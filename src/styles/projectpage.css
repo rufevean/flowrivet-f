@@ -1,0 +1,12 @@
+.ProjectPage_boards {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .Board {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }

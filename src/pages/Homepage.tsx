@@ -1,20 +1,18 @@
 import React from "react";
 import "../styles/homepage.css";
 
-// importing components
+
 import Nav from "../components/Nav.tsx";
 import NoiseComponent from "../components/NoiseComponent.tsx";
-// import Vectors from "../components/Vectors.tsx";
 const Homepage: React.FC = () => {
     const text = "safeguarding privacy in every project's journey.";
     return (
         <div className="Homepage">
-            <Nav />
+            <Nav path="/projects" />
             <div className="Homepage_content">
                 <div className="Homepage_content_motto">
                     <p className="Homepage_content_motto_first">
-                        Connect, collaborate
-                    </p>
+                        Connect, Collaborative                    </p>
                     <p className="Homepage_content_motto_second">
                         and Progress
                     </p>
