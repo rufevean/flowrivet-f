@@ -1,6 +1,12 @@
 import "../styles/projectprofile.css";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Nav from "../components/Nav";
+import NoiseComponent from "../components/NoiseComponent";
+import { Button, Form, Input } from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
+import { useNavigate } from "react-router";
 
 const ProjectProfile = () => {
     //states
@@ -10,42 +16,103 @@ const ProjectProfile = () => {
         expected_completion_date: "",
         project_manager: "",
     });
+    const navigate = useNavigate();
     const [projects, setProjects] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const [projectCount, setProjectCount] = useState(0);
+
+    const [isProjectAdded, setIsProjectAdded] = useState(false);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [addProjectButton, setAddProjectButton] = useState(false);
 
     //functions
     const handleButtonCLick = () => {
         setShowForm(true);
     };
+    const handleCloseForm = () => {
+        setShowForm(false);
+    };
+    const addProject = () => {
+        setIsProjectAdded(true);
+    };
+
+    useEffect(() => {
+        if (projects.length > 0) {
+            setAddProjectButton(true);
+        } else {
+            setAddProjectButton(false);
+        }
+    }, [projects]);
+    const projectCount = projects.length;
 
     const handleFormSubmit = (event) => {
+        3;
         event.preventDefault();
-        setProjects([...projects, project]);
+        if (editingIndex !== null) {
+            const newProjects = [...projects];
+            newProjects[editingIndex] = project;
+            setProjects(newProjects);
+            setEditingIndex(null);
+        } else {
+            setProjects([...projects, project]);
+        }
         setProject({
             name: "",
             description: "",
             expected_completion_date: "",
             project_manager: "",
         });
-
         setShowForm(false);
     };
+    const handleEditProject = (index) => {
+        setProject(projects[index]);
+        setEditingIndex(index);
+        setShowForm(true);
+    };
 
-    const addProject = () => {
-        setProjectCount(projectCount + 1);
+    const handleDeleteProject = (index) => {
+        setProjects(projects.filter((project, i) => i !== index));
     };
 
     return (
-        <>
-            <button
-                type="button"
-                onClick={handleButtonCLick}
-                className="project_add"
+        <div className="project_profile">
+            {/* Todo : add a default nav path  */}
+            <Nav path="/projects" />
+            <div
+                className={`project_add ${
+                    addProjectButton ? "project_added" : ""
+                }`}
             >
-                {" "}
-                Add project{" "}
-            </button>
+                <svg
+                    onClick={handleButtonCLick}
+                    className="project_add_icon"
+                    width="60"
+                    height="60"
+                    viewBox="0 0 60 60"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <g clip-path="url(#clip0_114_171)">
+                        <path
+                            d="M33 27V15H27V27H15V33H27V45H33V33H45V27H33ZM30 60C22.0435 60 14.4129 56.8393 8.7868 51.2132C3.16071 45.5871 0 37.9565 0 30C0 22.0435 3.16071 14.4129 8.7868 8.7868C14.4129 3.16071 22.0435 0 30 0C37.9565 0 45.5871 3.16071 51.2132 8.7868C56.8393 14.4129 60 22.0435 60 30C60 37.9565 56.8393 45.5871 51.2132 51.2132C45.5871 56.8393 37.9565 60 30 60Z"
+                            fill="#F2C698"
+                        />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_114_171">
+                            <rect width="60" height="60" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+                <button
+                    type="button"
+                    className="project_add_button"
+                    onClick={handleButtonCLick}
+                >
+                    {" "}
+                    Add project{" "}
+                </button>
+            </div>
             {showForm && (
                 <form
                     onSubmit={(e) => {
@@ -54,76 +121,137 @@ const ProjectProfile = () => {
                     }}
                     className="project_form"
                 >
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={project.name}
-                        onChange={(e) =>
-                            setProject({ ...project, name: e.target.value })
-                        }
-                    />
-                    <label htmlFor="description">Description</label>
-                    <input
-                        type="text"
-                        id="description"
-                        value={project.description}
-                        onChange={(e) =>
-                            setProject({
-                                ...project,
-                                description: e.target.value,
-                            })
-                        }
-                    />
-                    <label htmlFor="expected_completion_date">
-                        Expected Completion Date
-                    </label>
-                    <input
-                        type="text"
-                        id="expected_completion_date"
-                        value={project.expected_completion_date}
-                        onChange={(e) =>
-                            setProject({
-                                ...project,
-                                expected_completion_date: e.target.value,
-                            })
-                        }
-                    />
-                    <label htmlFor="project_manager">Project Manager</label>
-                    <input
-                        type="text"
-                        id="project_manager"
-                        value={project.project_manager}
-                        onChange={(e) =>
-                            setProject({
-                                ...project,
-                                project_manager: e.target.value,
-                            })
-                        }
-                    />
-                    <button type="submit" className="project_submit">
-                        Submit
-                    </button>
+                    <div className="project_form_title">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            type="text"
+                            required
+                            id="name"
+                            value={project.name}
+                            onChange={(e) =>
+                                setProject({ ...project, name: e.target.value })
+                            }
+                        />
+                    </div>
+                    <div className="project_form_description">
+                        <label htmlFor="description">Description</label>
+                        <input
+                            type="textarea"
+                            id="description"
+                            required
+                            value={project.description}
+                            onChange={(e) =>
+                                setProject({
+                                    ...project,
+                                    description: e.target.value,
+                                })
+                            }
+                        />
+                    </div>
+                    <div className="project_form_expected_completion_date">
+                        <label htmlFor="expected_completion_date">
+                            Expected Completion Date
+                        </label>
+                        <input
+                            type="date"
+                            id="expected_completion_date"
+                            value={project.expected_completion_date}
+                            onChange={(e) =>
+                                setProject({
+                                    ...project,
+                                    expected_completion_date: e.target.value,
+                                })
+                            }
+                            defaultValue="tbd"
+                        />
+                    </div>
+                    <div className="project_form_project_manager">
+                        <label htmlFor="project_manager"> Manager</label>
+                        <input
+                            type="text"
+                            id="project_manager"
+                            value={project.project_manager}
+                            onChange={(e) =>
+                                setProject({
+                                    ...project,
+                                    project_manager: e.target.value,
+                                })
+                            }
+                        />
+                    </div>
+                    <div className="project_form_buttons">
+                        <button
+                            type="submit"
+                            className="project_submit project_add_button"
+                        >
+                            Submit
+                        </button>
+                        <button
+                            type="button"
+                            className="project_add_button"
+                            onClick={handleCloseForm}
+                        >
+                            Close
+                        </button>
+                    </div>
                 </form>
             )}
             {projects.map((project, index) => (
-                <Link key={index} to={`/projects/${project.name}`} className="project_link">
                 <div key={index} className="project">
-                    <div className="project_id"> Project {projectCount}</div>
-                    <div className="project_name">{project.name}</div>
-                    <div className="project_description">
-                        {project.description}
+                    <div className="project_field">
+                        <div className="project_label">Name</div>
+                        <div className="project_name">{project.name}</div>
                     </div>
-                    <div className="project_expected_completion_date">
-                        {project.expected_completion_date}
+                    <div className="project_field">
+                        <div className="project_label">Description</div>
+                        <div className="project_description">
+                            {project.description}
+                        </div>
                     </div>
-                    <div className="project_project_manager">
-                        {project.project_manager}
+                    <div className="project_field">
+                        <div className="project_label">
+                            Expected Completion Date
+                        </div>
+                        <div className="project_expected_completion_date">
+                            {project.expected_completion_date}
+                        </div>
+                    </div>
+                    <div className="project_field">
+                        <div className="project_label">Manager</div>
+                        <div className="project_manager">
+                            {project.project_manager}
+                        </div>
+                    </div>
+                    <div className="project_field">
+                        <button
+                            className="project_edit_button"
+                            onClick={() => handleEditProject(index)}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            className="project_delete_button"
+                            onClick={() => handleDeleteProject(index)}
+                        >
+                            Delete
+                        </button>
+                        <button
+                            className="project_view_button"
+                            onClick={() =>
+                                navigate(`/projects/${project.name}`)
+                            }
+                        >
+                            View
+                        </button>
                     </div>
                 </div>
-                </Link>
             ))}
-        </>
+            <div className="project_count">
+                {" "}
+                Project Count : {projectCount}{" "}
+            </div>
+            <NoiseComponent />
+        </div>
     );
 };
 

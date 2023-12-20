@@ -101,14 +101,55 @@ function ProjectPage() {
         }
     }, []);
 
-    // ... existing code ...
-
     return (
         <div>
             <h2>Project ID: {id}</h2>
             <div className="ProjectPage_content">
                 <button onClick={() => setView("board")}>Board</button>
                 <button onClick={() => setView("issues")}>Issues</button>
+                <form onSubmit={handleFormSubmit}>
+                    <input
+                        name="name"
+                        value={newIssue.name}
+                        onChange={handleInputChange}
+                        placeholder="Issue Name"
+                        required
+                    />
+                    <input
+                        name="description"
+                        value={newIssue.description}
+                        onChange={handleInputChange}
+                        placeholder="Description"
+                        required
+                    />
+                    <select
+                        name="progress"
+                        value={newIssue.progress}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Select progress</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="To Do">To Do</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <input
+                        name="due"
+                        type="date"
+                        value={newIssue.due}
+                        onChange={handleInputChange}
+                        placeholder="Due"
+                        required
+                    />
+                    <input
+                        name="assignee"
+                        value={newIssue.assignee}
+                        onChange={handleInputChange}
+                        placeholder="Assignee"
+                        required
+                    />
+                    <button type="submit">Add Issue</button>
+                </form>
                 {view === "board" && (
                     <div className="ProjectPage_boards">
                         {["To Do", "Under Review", "Completed"].map(
@@ -145,51 +186,6 @@ function ProjectPage() {
 
                 {view === "issues" && (
                     <div className="ProjectPage_issues">
-                        <form onSubmit={handleFormSubmit}>
-                            <input
-                                name="name"
-                                value={newIssue.name}
-                                onChange={handleInputChange}
-                                placeholder="Issue Name"
-                                required
-                            />
-                            <input
-                                name="description"
-                                value={newIssue.description}
-                                onChange={handleInputChange}
-                                placeholder="Description"
-                                required
-                            />
-                            <select
-                                name="progress"
-                                value={newIssue.progress}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Select progress</option>
-                                <option value="Under Review">
-                                    Under Review
-                                </option>
-                                <option value="To Do">To Do</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                            <input
-                                name="due"
-                                type="date"
-                                value={newIssue.due}
-                                onChange={handleInputChange}
-                                placeholder="Due"
-                                required
-                            />
-                            <input
-                                name="assignee"
-                                value={newIssue.assignee}
-                                onChange={handleInputChange}
-                                placeholder="Assignee"
-                                required
-                            />
-                            <button type="submit">Add Issue</button>
-                        </form>
                         <div>
                             <label>Filter by progress: </label>
                             <select
@@ -255,8 +251,6 @@ function ProjectPage() {
             </div>
         </div>
     );
-
-    // ... existing code ...
 }
 
 export default ProjectPage;

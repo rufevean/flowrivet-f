@@ -1,5 +1,6 @@
 .circuits{
     display: flex;
+    position: fixed;
 
 }
 
