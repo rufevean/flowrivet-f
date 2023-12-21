@@ -24,7 +24,7 @@ const Nav: React.FC<NavProps> = ({path}) => {
             </a>
             <div className="Nav_links">
                 <a href="/contact" >Contact</a>
-                <a href="/">Features</a>
+                <a href="/features">Features</a>
                 <a href="/">Why FlowRivet?</a>
                 <button onClick={handleSignup} className="Nav_button">Sign Up</button>
             </div>
