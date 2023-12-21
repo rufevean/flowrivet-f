@@ -8,6 +8,7 @@ import { Button, Form, Input } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 import { useNavigate } from "react-router";
 
+
 const ProjectProfile = () => {
     //states
     const [project, setProject] = useState({
