@@ -1,12 +1,15 @@
+import Userdetails from "../components/Userdetails.tsx";
+import Heatmap from "../components/Heatmap.tsx";
+
 const UserProfile = () => {
 
-    return (
-// TODO : add  a suer profile and add a graph like in github to note the compeltions of the user isues 
-        <h1>Profile</h1>
 
+    return (
+        <>
+            <Userdetails />
+            <Heatmap />
+        </>
     );
-    
-}
+};
 
 export default UserProfile;
-

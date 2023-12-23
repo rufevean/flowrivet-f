@@ -18,6 +18,7 @@ const ProjectProfile = () => {
             <Nav path="/projects" />
             < ProjectAddButton />
             <NoiseComponent />
+            <button><a href="/user">profile</a></button>
         </div>
     );
 };

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/projectpage.css";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 import {
     BarChart,
     Bar,
@@ -31,6 +33,7 @@ function ProjectPage() {
     const [analysisType, setAnalysisType] = useState("progress");
     const [priority, setPriority] = useState("");
     const [boardView, setBoardView] = useState("progress"); // Add this line
+    const dispatch = useDispatch();
 
     // Existing code...
 
@@ -52,7 +55,7 @@ function ProjectPage() {
     });
     const priorities = ["Critical", "High", "Medium", "Low"];
     const progressStages = ["To Do", "Under Review", "Completed"];
-
+    const completedDates = issues.map((issue) => issue.completedDate);
     const chartData = progressStages.map((stage) => {
         const stageData = { stage };
         priorities.forEach((priority) => {
@@ -69,7 +72,9 @@ function ProjectPage() {
         progress: "",
         due: "",
         assignee: "",
-        priority: "Medium", // Add priority to the state
+        priority: "",
+        completed: false,
+        completedDate: null, // Add this line
     });
     const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
     const progressData = issues.reduce((acc, issue) => {
@@ -103,6 +108,18 @@ function ProjectPage() {
     const handleBoardViewChange = (view) => {
         setBoardView(view);
     };
+    const handleCheckboxChange = (index) => {
+        const updatedIssues = [...issues];
+        updatedIssues[index].completed = !updatedIssues[index].completed;
+        updatedIssues[index].progress = updatedIssues[index].completed
+            ? "Completed"
+            : "Todo";
+        updatedIssues[index].completedDate = updatedIssues[index].completed
+            ? new Date()
+            : null;
+        setIssues(updatedIssues);
+        dispatch({ type: "TOGGLE_COMPLETION", index });
+    };
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
@@ -122,6 +139,8 @@ function ProjectPage() {
             due: "",
             assignee: "",
             priority: "",
+            completed: false,
+            completedDate: null,
         });
         setEditingIndex(null);
     };
@@ -178,6 +197,9 @@ function ProjectPage() {
                 <button onClick={() => setView("board")}>Board</button>
                 <button onClick={() => setView("issues")}>Issues</button>
                 <button onClick={() => setView("analysis")}>Analysis</button>
+                <Link to="/user">
+                    <button>Profile</button>
+                </Link>
                 <form onSubmit={handleFormSubmit}>
                     <input
                         name="name"
@@ -363,6 +385,21 @@ function ProjectPage() {
                                             <td>{issue.assignee}</td>
                                             <td>{issue.priority}</td>
                                             <td>
+                                                Completion Date:{" "}
+                                                {issue.completedDate
+                                                    ? issue.completedDate.toString()
+                                                    : "Not completed"}
+                                            </td>
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={issue.completed}
+                                                    onChange={() =>
+                                                        handleCheckboxChange(
+                                                            index
+                                                        )
+                                                    }
+                                                />
                                                 <button
                                                     onClick={() =>
                                                         handleEditClick(index)
